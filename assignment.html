@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    </style>
+</head>
+
+<body>
+    <main>
+    </main>
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+        function createTable(data) {
+            var table = d3.select('body').append('table')
+                .style("border-collapse", "collapse")
+                .style("border", "3px black solid")
+            table.append("thead")
+                .append('tr')
+                .selectAll('th')
+                .data(Object.keys(data[0]))
+                .enter()
+                .append('th')
+                .text(function (h) { return h })
+                .style("border", "2px black solid")
+                .style("padding", "10px")
+                .style("background-color", "lightblue")
+            table.append("tbody")
+                .selectAll("tr")
+                .data(data)
+                .enter()
+                .append("tr")
+                .selectAll("td")
+                .data(function (d) { return Object.values(d); })
+                .enter()
+                .append("td")
+                .text(d => d)
+                .style("border", "1px black solid")
+                .style("padding", "5px")
+        }
+        async function main() {
+            const data = await d3.json("sunshine.json")
+            createTable(data)
+        }
+        main()
+    </script>
+</body>
+
+</html>
